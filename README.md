@@ -22,11 +22,31 @@ Google Input Tools for the final step (free, no API key required).
 
 ## Installation
 
-You need a **dev install** of Vencord (not the standard installer — userplugins
-require building from source). See the official docs:
-<https://docs.vencord.dev/installing/custom-plugins/>.
+### One-line install (Windows, recommended)
 
-Quick version once you have Vencord cloned and `pnpm install`-ed:
+Open **PowerShell** and paste:
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/herrylai246-bit/vencord-zhuyin-translate/main/install.ps1 | iex
+```
+
+That script will:
+
+1. Check you have `git` and Node.js ≥ 18 (links you to installers if not).
+2. Clone Vencord into `%LOCALAPPDATA%\VencordZhuyin\Vencord`.
+3. Drop this plugin in as a userplugin.
+4. Install dependencies and build.
+5. Close Discord, patch it, deploy the bundle, and relaunch.
+
+Re-run the same command any time to update.
+
+After it finishes: open Discord → Settings → **Vencord → Plugins** → enable
+**ZhuyinTranslate**.
+
+### Manual install
+
+Prerequisite: a [Vencord dev build](https://docs.vencord.dev/installing/custom-plugins/)
+(clone Vencord, `pnpm install`).
 
 ```bash
 cd <Vencord>/src/userplugins
@@ -37,7 +57,7 @@ pnpm inject
 ```
 
 Restart Discord, then enable **ZhuyinTranslate** in Settings → Vencord →
-Plugins. Because it's a userplugin you'll get a warning — accept it.
+Plugins.
 
 To update later: `cd <Vencord>/src/userplugins/zhuyinTranslate && git pull`,
 then `pnpm build` in the Vencord root (and `Ctrl+R` inside Discord).
