@@ -2,8 +2,21 @@
  * Quick standalone test — run with: npx tsx test/decode.test.ts
  * Verifies the keymap + API round-trip on your example strings.
  */
-import { keystrokesToBopomofo } from "../src/userplugins/zhuyinTranslate/keymap";
-import { bopomofoToHanzi } from "../src/userplugins/zhuyinTranslate/translate";
+import { keystrokesToBopomofo } from "../keymap";
+import { bopomofoToPinyin } from "../pinyin";
+
+// Inline translator that calls Google directly (bypasses the Vencord native
+// bridge we use in production, since this test runs under plain Node).
+async function bopomofoToHanzi(bp: string): Promise<string | null> {
+    const pinyin = bopomofoToPinyin(bp).trim();
+    if (!pinyin) return null;
+    const url =
+        `https://inputtools.google.com/request?text=${encodeURIComponent(pinyin)}` +
+        `&itc=zh-hant-t-i0-pinyin&num=5&cp=0&cs=1&ie=utf-8&oe=utf-8&app=demopage`;
+    const res = await fetch(url);
+    const data: any = await res.json();
+    return data?.[1]?.[0]?.[1]?.[0] ?? null;
+}
 
 const samples = [
     "su3a8n3xk7",

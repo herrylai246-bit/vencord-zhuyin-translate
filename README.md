@@ -22,21 +22,33 @@ Google Input Tools for the final step (free, no API key required).
 
 ## Installation
 
-Standard Vencord userplugin install — see
+You need a **dev install** of Vencord (not the standard installer — userplugins
+require building from source). See the official docs:
 <https://docs.vencord.dev/installing/custom-plugins/>.
 
-1. Set up a Vencord dev build (clone `Vendicated/Vencord`, run `pnpm install`).
-2. Copy `src/userplugins/zhuyinTranslate/` into `<Vencord>/src/userplugins/`.
-3. In the Vencord folder run `pnpm build` then `pnpm inject`.
-4. Restart Discord and enable **ZhuyinTranslate** in Vencord → Plugins.
+Quick version once you have Vencord cloned and `pnpm install`-ed:
+
+```bash
+cd <Vencord>/src/userplugins
+git clone https://github.com/herrylai246-bit/vencord-zhuyin-translate.git zhuyinTranslate
+cd ../..
+pnpm build
+pnpm inject
+```
+
+Restart Discord, then enable **ZhuyinTranslate** in Settings → Vencord →
+Plugins. Because it's a userplugin you'll get a warning — accept it.
+
+To update later: `cd <Vencord>/src/userplugins/zhuyinTranslate && git pull`,
+then `pnpm build` in the Vencord root (and `Ctrl+R` inside Discord).
 
 ## Files
 
-- `src/userplugins/zhuyinTranslate/index.tsx` — plugin entry, UI
-- `src/userplugins/zhuyinTranslate/keymap.ts` — QWERTY → Bopomofo map
-- `src/userplugins/zhuyinTranslate/pinyin.ts` — Bopomofo → Pinyin
-- `src/userplugins/zhuyinTranslate/translate.ts` — renderer-side translator
-- `src/userplugins/zhuyinTranslate/native.ts` — Electron-main-process fetch
+- `index.tsx` — plugin entry + UI
+- `keymap.ts` — QWERTY → Bopomofo map
+- `pinyin.ts` — Bopomofo → Pinyin syllabifier
+- `translate.ts` — renderer-side translator (calls the native bridge)
+- `native.ts` — Electron-main-process fetch to Google Input Tools
   (bypasses renderer CORS)
 
 ## Notes / limitations
